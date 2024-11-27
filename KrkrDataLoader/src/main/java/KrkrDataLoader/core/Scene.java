@@ -10,26 +10,26 @@ import java.util.List;
 public class Scene
 		extends KrkrData
 {
-	public List<Dialogue> dialogues;
 	
-	public Scene(String name, JsonElement data)
+	public Scene(JsonElement data) throws Throwable
 	{
-		super(name, data);
-		this.dialogues = new ArrayList<>();
+		super(Config.getSingleConfig("scene_label").getValueAsJsonPrimitive(data).toString());
 		
-		JsonArray dialogues_array = Config.getSingleConfig("dialogues").getValueAsJsonArray(data);
-		for(JsonElement element: dialogues_array)
+		JsonArray dialogues_array = null;
+		
+		try
 		{
-			try
+			dialogues_array = Config.getSingleConfig("dialogues").getValueAsJsonArray(data);
+			int index = 0;
+			for(JsonElement element: dialogues_array)
 			{
-				Dialogue new_dialogue = new Dialogue(Integer.toString(dialogues.size()), element);
-				this.dialogues.add(new_dialogue);
-				this.setChild(new_dialogue);
+				this.setChild(new Dialogue(Integer.toString(index), element));
+				index++;
 			}
-			catch(Exception e)
-			{
-			
-			}
+		}
+		catch(Throwable ignored)
+		{
+		
 		}
 	}
 }

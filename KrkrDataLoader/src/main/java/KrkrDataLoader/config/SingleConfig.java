@@ -38,9 +38,9 @@ public class SingleConfig
 	
 	public void add_fields(List<Object> fields) throws Throwable
 	{
-		for(Object field:fields)
+		for(Object field: fields)
 		{
-			if((!(field instanceof String)) && (!(field instanceof Integer)))
+			if(( ! ( field instanceof String ) ) && ( ! ( field instanceof Integer ) ))
 			{
 				throw new Exception("Fields only support String and Interger!");
 			}
@@ -48,45 +48,19 @@ public class SingleConfig
 		this.fields_list.add(fields);
 	}
 	
-	public JsonObject getValueAsJsonObject(JsonElement data)
+	public JsonObject getValueAsJsonObject(JsonElement data) throws Throwable
 	{
-		JsonObject value = null;
-		try
-		{
-			value = getValueAsJsonElement(data).getAsJsonObject();
-		}
-		catch(Throwable e)
-		{
-			System.out.println(e);
-		}
-		return value;
-	}
-	public JsonArray getValueAsJsonArray(JsonElement data)
-	{
-		JsonArray value = null;
-		try
-		{
-			value = getValueAsJsonElement(data).getAsJsonArray();
-		}
-		catch(Throwable e)
-		{
-			System.out.println(e);
-		}
-		return value;
+		return getValueAsJsonElement(data).getAsJsonObject();
 	}
 	
-	public JsonPrimitive getValueAsJsonPrimitive(JsonElement data)
+	public JsonArray getValueAsJsonArray(JsonElement data) throws Throwable
 	{
-		JsonPrimitive value = null;
-		try
-		{
-			value = getValueAsJsonElement(data).getAsJsonPrimitive();
-		}
-		catch(Throwable e)
-		{
-			System.out.println(e);
-		}
-		return value;
+		return getValueAsJsonElement(data).getAsJsonArray();
+	}
+	
+	public JsonPrimitive getValueAsJsonPrimitive(JsonElement data) throws Throwable
+	{
+		return getValueAsJsonElement(data).getAsJsonPrimitive();
 	}
 	
 	private JsonElement getValueAsJsonElement(JsonElement data) throws Throwable
@@ -102,7 +76,7 @@ public class SingleConfig
 		}
 		if(new_data == null)
 		{
-			throw new NoSuchFieldError("Can't get data from fields!");
+			throw new NoSuchFieldError("Load Json Error in field "+name+": Can't get data from fields!");
 		}
 		return new_data;
 	}

@@ -15,17 +15,31 @@ public class Dialogue
 		super(name);
 	}
 	
-	public Dialogue(String name, JsonElement data)
+	public Dialogue(String name, JsonElement data) throws Throwable
 	{
-		super(name, data);
-		speaker = Config.getSingleConfig("speaker").getValueAsJsonPrimitive(data).toString();
-		content = Config.getSingleConfig("content").getValueAsJsonPrimitive(data).toString();
+		super(name);
 		
-		JsonElement voiceElement = Config.getSingleConfig("voice").getValueAsJsonPrimitive(data);
-		if(! voiceElement.isJsonNull())
+		this.speaker = null;
+		try
 		{
-			voice = new Voice("voice", voiceElement.toString());
+			this.speaker = Config.getSingleConfig("speaker").getValueAsJsonPrimitive(data).toString();
+		}
+		catch(Throwable ignored)
+		{
+		
+		}
+		
+		this.content = Config.getSingleConfig("content").getValueAsJsonPrimitive(data).toString();
+		
+		this.voice = null;
+		try
+		{
+			voice = new Voice("voice", Config.getSingleConfig("voice").getValueAsJsonPrimitive(data).toString());
 			setChild(voice);
+		}
+		catch(Throwable ignored)
+		{
+		
 		}
 	}
 	
