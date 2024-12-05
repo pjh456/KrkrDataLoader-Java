@@ -1,21 +1,22 @@
 package KrkrDataLoader.core;
 
 import KrkrDataLoader.config.Config;
+import KrkrDataLoader.config.Settings;
 import com.google.gson.JsonElement;
 
-public class Dialogue
+public class KrkrDialogue
 		extends KrkrData
 {
-	public String speaker = Config.default_speaker;
-	public String content = Config.default_content;
+	public String speaker = Settings.default_speaker;
+	public String content = Settings.default_content;
 	private Voice voice = null;
 	
-	public Dialogue(String name)
+	public KrkrDialogue(String name)
 	{
 		super(name);
 	}
 	
-	public Dialogue(String name, JsonElement data) throws Throwable
+	public KrkrDialogue(String name, JsonElement data) throws Throwable
 	{
 		super(name);
 		

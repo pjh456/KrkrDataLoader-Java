@@ -8,16 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import KrkrDataLoader.core.Utils;
+import KrkrDataLoader.core.KrkrUtils;
 
 public class Config
 {
-	public static String audio_suffix = ".ogg";
-	
-	// Default Configs
-	public static String default_speaker = "unknown";
-	public static String default_content = "unknown";
-	public static String default_title = "unknown";
 	
 	private static Map<String,SingleConfig> single_config_map = new HashMap<>();
 	
@@ -36,7 +30,7 @@ public class Config
 	{
 		single_config_map = new HashMap<>();
 		
-		JsonObject config_array = Utils.loadJsonFile(path);
+		JsonObject config_array = KrkrUtils.loadJsonFile(path);
 		
 		for(Map.Entry<String,JsonElement> json_config: config_array.entrySet())
 		{

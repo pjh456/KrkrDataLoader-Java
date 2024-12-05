@@ -1,12 +1,17 @@
 package KrkrDataLoader;
 
-import KrkrDataLoader.config.Config;
-import KrkrDataLoader.core.Dialogue;
-import KrkrDataLoader.core.KrkrData;
-import KrkrDataLoader.core.Scenes;
+import KrkrDataLoader.config.Settings;
+import javafx.application.Application;
+
 
 public class Main
 {
+	public static void main(String[] args) throws Throwable
+	{
+		Settings.loadFromJson("KrkrDataLoader/src/main/resources/settings.json");
+		//Application.launch(KrkrConfigWindow.class, args);
+	}
+	/*
 	public static void main(String[] args)
 	{
 		String config_name = "KrkrDataLoader/src/test/configs.json";
@@ -15,7 +20,7 @@ public class Main
 		try
 		{
 			Config.loadFromJson(config_name);
-			Scenes scenes = new Scenes(data_name);
+			KrkrScenes scenes = new KrkrScenes(data_name);
 			for(KrkrData scene: scenes.listChildren())
 			{
 				System.out.println(scene.name);
@@ -23,7 +28,7 @@ public class Main
 				{
 					for(KrkrData dialogue: scene.listChildren())
 					{
-						System.out.println("	"+((Dialogue)dialogue).content);
+						System.out.println("	"+((KrkrDialogue)dialogue).content);
 					}
 				}
 				else
@@ -36,6 +41,6 @@ public class Main
 		{
 			System.out.println(ignored);
 		}
-		
 	}
+	 */
 }

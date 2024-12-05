@@ -4,14 +4,11 @@ import KrkrDataLoader.config.Config;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Scene
+public class KrkrScene
 		extends KrkrData
 {
 	
-	public Scene(JsonElement data) throws Throwable
+	public KrkrScene(JsonElement data) throws Throwable
 	{
 		super(Config.getSingleConfig("scene_label").getValueAsJsonPrimitive(data).toString());
 		
@@ -23,7 +20,7 @@ public class Scene
 			int index = 0;
 			for(JsonElement element: dialogues_array)
 			{
-				this.setChild(new Dialogue(Integer.toString(index), element));
+				this.setChild(new KrkrDialogue(Integer.toString(index), element));
 				index++;
 			}
 		}

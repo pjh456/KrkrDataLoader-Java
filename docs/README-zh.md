@@ -8,7 +8,31 @@
 ### 一、数据存储类
 根据层次的不同，数据被划分为了 ``SceneFolder``,``Scenes``,``Scene``,``Dialogue``,``Voice`` 等类，自顶而下地嵌套构筑，以简化访问过程。
 
-所有类均继承自父类 ``KrkrData``，包含了属性 ``path`` 和 ``name``，分别标识文件路径和对应唯一标识符。
+所有类均继承自父类 ``KrkrData``，包含了属性 ``child_map`` 和 ``name``，分别标识子路径集合和对应标识符。
+
+#### KrkrData
+表示从 Json 文件中解析出来的一个路径对应的数据。
+
+``KrkrData.getChild(String name)`` 返回值为 ``KrkrData`` 类型，用于获取一个路径的对应标识符子路径；
+
+``KrkrData.setChild(KrkrData child)`` 无返回值，用于加入一个 ``KrkrData`` 对象作为其子路径；
+
+``KrkrData.listChildrent()`` 返回值为 ``List<KrkrData>`` 类型，表示一个有序子路径列表；
+
+``KrkrData.size()`` 返回值为 ``int`` 类型，表示子路径集合的大小。
+
+#### Voice
+表示一条声音文件，可以用于播放。
+
+``Voice.play()`` 无返回值，表示播放一条音频；
+
+``Voice.stop()`` 无返回值，表示停止一条音频。
+
+#### Dialogue
+表示一条对话
+
+``Dialogue.speaker`` 为 ``String`` 类型，表示对话的说话人，根据是否是独白可能为 ``null``；
+
 
 ### 二、配置器类
 为了实现路径读取的自动化，我采用了 Json 来存储配置路径，用 ``Config`` 来对多个 ``SingleConfig`` 进行存储，而每个 ``SingleConfig`` 则对应了一个字段在 Json 文件中相对于上一层级的相对路径。

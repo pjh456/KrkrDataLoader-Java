@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
 }
 
 group = 'com.KrkrData'
@@ -12,6 +13,14 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation 'com.google.code.gson:gson:2.11.0'
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-controls// https://mvnrepository.com/artifact/org.openjfx/javafx-controls
+    implementation 'org.openjfx:javafx-controls:17.0.11'
+
+}
+
+javafx {
+    version = "17.0.11"
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 test {
