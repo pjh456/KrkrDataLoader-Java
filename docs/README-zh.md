@@ -6,7 +6,11 @@
 
 ## 文件架构
 ### 一、数据存储类
-根据层次的不同，数据被划分为了 ``SceneFolder``,``Scenes``,``Scene``,``Dialogue``,``Voice`` 等类，自顶而下地嵌套构筑，以简化访问过程。
+根据层次的不同，数据被划分为了 ``KrkrFolder``,``KrkrScenes``,``KrkrScene``,``KrkrDialogue``,``Voice`` 等类，自顶而下地嵌套构筑，以简化访问过程。
+
+具体而言，程序包含如下嵌套：
+
+``KrkrFolder -> KrkrScenes -> KrkrScene -> KrkrDialogue -> Voice -> KrkrData``
 
 所有类均继承自父类 ``KrkrData``，包含了属性 ``child_map`` 和 ``name``，分别标识子路径集合和对应标识符。
 
@@ -24,23 +28,62 @@
 #### Voice
 表示一条声音文件，可以用于播放。
 
+**该类不提供对外接口支持，只作为只读类存在。**
+
 ``Voice.play()`` 无返回值，表示播放一条音频；
 
 ``Voice.stop()`` 无返回值，表示停止一条音频。
 
-#### Dialogue
-表示一条对话
+#### KrkrDialogue
+表示一条对话。
 
-``Dialogue.speaker`` 为 ``String`` 类型，表示对话的说话人，根据是否是独白可能为 ``null``；
+**该类不提供对外接口支持，只作为只读类存在。**
+
+``KrkrDialogue.speaker`` 为 ``String`` 类型，表示对话的说话人，根据是否是独白可能为 ``null``；
+
+``KrkrDialogue.content`` 为 ``String`` 类型，表示对话的内容，保证不为 ``null``；
+
+``KrkrDialogue.voice`` 为 ``Voice`` 类型，表示对话的音频，根据是否存在可能为 ``null``；
+
+#### KrkrScene
+表示一个情景，包含多段对话。
+
+**该类不提供对外接口支持，只作为只读类存在。**
+
+
+#### KrkrScenes
+表示一个情景组，即一个剧本 ``.scn`` 文件。
+
+**该类提供了对外接口支持**
+
+``KrkrScenes(file_path)`` 初始化一个新的剧本文件，需要处理来自 ``Config.getSingleConfig("scenes_name").getValueAsJsonPrimitive(data)`` 的 ``Throwable`` 异常。
 
 
 ### 二、配置器类
-为了实现路径读取的自动化，我采用了 Json 来存储配置路径，用 ``Config`` 来对多个 ``SingleConfig`` 进行存储，而每个 ``SingleConfig`` 则对应了一个字段在 Json 文件中相对于上一层级的相对路径。
+为了实现路径读取的自动化，配置路径文件使用 ``Json`` 文件进行存储。
 
-其中，``Config`` 类不仅能读取配置文件来获取各个配置路径，还能配置一些默认参数。
+配置器包含了 ``Config``,``SingleConfig`` 两个类用于读取路径文件，以及 ``Settings`` 用于存储默认参数。
 
-在未来，它将能够支持手动指定配置路径，并将其导出为配置文件。
+#### SingleConfig
+表示一个相对路径的字段。
 
+**该类不提供对外接口支持，只作为只读类存在。**
+
+``SingleConfig(JsonElement)`` 读取一个只包含 ``String`` 和 ``Integer`` 的 ``List``，分别表示相对路径中的字典和列表项。
+
+``SingleConfig.add_fields(List<Object> fields)`` 原计划是想对外提供接口支持，以支持动态添加路径。但目前还在测试阶段，因此不建议使用。
+
+如此实现之后，只需要调用 ``SingleConfig.getValueAsJsonPrimitive(data)``,``SingleConfig.getValueAsJsonArray(data)``,``SingleConfig.getValueAsJsonObject(data)`` 即可将上一层级传入的 ``JsonElement`` 数据进行解析，并获取其中相对路径的值。
+
+#### Config
+``SingleConfig`` 的集合，使用 ``ListMap`` 进行存储。
+
+
+#### Settings
+表示默认参数或者系统设置。
+
+
+### 三、
 
 # FAQ
 
