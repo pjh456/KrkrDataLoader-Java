@@ -37,4 +37,10 @@ public class KrkrData
 	{
 		return this.children_map.size();
 	}
+	
+	@Override
+	public String toString()
+	{
+		return name;
+	}
 }

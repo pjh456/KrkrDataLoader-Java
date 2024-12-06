@@ -4,5 +4,6 @@
   "content": "",
   "scene_title": "",
   "window_title": "KrkrDataLoader",
-  "window_icon": "KrkrDataLoader/src/main/resources/KrkrDataLoaderIcon.png"
+  "window_icon": "KrkrDataLoader/src/main/resources/KrkrDataLoaderIcon.png",
+  "scene_fxml_path": "KrkrDataLoader/src/main/resources/KrkrSceneWindow.fxml"
 }

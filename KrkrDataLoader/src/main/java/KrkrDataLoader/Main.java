@@ -1,7 +1,16 @@
 package KrkrDataLoader;
 
+import KrkrDataLoader.config.Config;
 import KrkrDataLoader.config.Settings;
+import KrkrDataLoader.core.KrkrData;
+import KrkrDataLoader.core.KrkrDialogue;
+import KrkrDataLoader.core.KrkrScenes;
+import KrkrDataLoader.core.KrkrUtils;
+import KrkrDataLoader.gui.KrkrSceneWindow;
+import KrkrDataLoader.gui.KrkrVoiceWindow;
 import javafx.application.Application;
+
+import java.io.File;
 
 
 public class Main
@@ -9,38 +18,40 @@ public class Main
 	public static void main(String[] args) throws Throwable
 	{
 		Settings.loadFromJson("KrkrDataLoader/src/main/resources/settings.json");
-		//Application.launch(KrkrConfigWindow.class, args);
-	}
-	/*
-	public static void main(String[] args)
-	{
-		String config_name = "KrkrDataLoader/src/test/configs.json";
-		String data_name = "KrkrDataLoader/src/test/001・アーサー王ver1.07.ks.json";
 		
-		try
-		{
-			Config.loadFromJson(config_name);
-			KrkrScenes scenes = new KrkrScenes(data_name);
-			for(KrkrData scene: scenes.listChildren())
-			{
-				System.out.println(scene.name);
-				if(scene.size()>0)
-				{
-					for(KrkrData dialogue: scene.listChildren())
-					{
-						System.out.println("	"+((KrkrDialogue)dialogue).content);
-					}
-				}
-				else
-				{
-					System.out.println("	"+"null");
-				}
-			}
-		}
-		catch(Throwable ignored)
-		{
-			System.out.println(ignored);
-		}
+		String config_name = "KrkrDataLoader/src/test/configs.json";
+		Config.loadFromJson(config_name);
+		
+		Application.launch(KrkrSceneWindow.class, args);
+		
+//		String data_name = "KrkrDataLoader/src/test/001・アーサー王ver1.07.ks.json";
+//
+//		Config.loadFromJson(config_name);
+//
+//		File file = new File(data_name);
+//		try
+//		{
+//			KrkrScenes scenes = new KrkrScenes(KrkrUtils.loadJsonFile(file));
+//			for(KrkrData scene: scenes.listChildren())
+//			{
+//				System.out.println(scene.name);
+//				if(scene.size()>0)
+//				{
+//					for(KrkrData dialogue: scene.listChildren())
+//					{
+//						System.out.println("	"+((KrkrDialogue)dialogue).content);
+//					}
+//				}
+//				else
+//				{
+//					System.out.println("	"+"null");
+//				}
+//			}
+//		}
+//		catch(Throwable e)
+//		{
+//			System.out.println("Load file error!");
+//		}
+		
 	}
-	 */
 }

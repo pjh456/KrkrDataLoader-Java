@@ -23,19 +23,19 @@ public class KrkrDialogue
 		this.speaker = null;
 		try
 		{
-			this.speaker = Config.getSingleConfig("speaker").getValueAsJsonPrimitive(data).toString();
+			this.speaker = Config.getSingleConfig("speaker").getValueAsJsonPrimitive(data).getAsString();
 		}
 		catch(Throwable ignored)
 		{
 		
 		}
 		
-		this.content = Config.getSingleConfig("content").getValueAsJsonPrimitive(data).toString();
+		this.content = Config.getSingleConfig("content").getValueAsJsonPrimitive(data).getAsString();
 		
 		this.voice = null;
 		try
 		{
-			voice = new Voice("voice", Config.getSingleConfig("voice").getValueAsJsonPrimitive(data).toString());
+			voice = new Voice("voice", Config.getSingleConfig("voice").getValueAsJsonPrimitive(data).getAsString());
 			setChild(voice);
 		}
 		catch(Throwable ignored)
@@ -58,5 +58,11 @@ public class KrkrDialogue
 		{
 			voice.stop();
 		}
+	}
+	
+	@Override
+	public String toString()
+	{
+		return speaker == null ? ( content ) : ( "【" + speaker + "】" + content );
 	}
 }

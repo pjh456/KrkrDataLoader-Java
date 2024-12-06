@@ -14,6 +14,24 @@ import java.util.List;
 
 public class KrkrUtils
 {
+	public static JsonObject loadJsonFile(File file) throws FileNotFoundException, InvalidTypeException, IOException
+	{
+		
+		// 使用BufferedReader逐行读取文件内容
+		StringBuilder contentBuilder = new StringBuilder();
+		try(BufferedReader reader = new BufferedReader(new FileReader(file.getPath())))
+		{
+			String line;
+			while(( line = reader.readLine() ) != null)
+			{
+				contentBuilder.append(line);
+			}
+		}
+		// 创建Gson对象以解析JSON
+		Gson gson = new Gson();
+		// 将读取的内容解析为JsonObject并返回
+		return gson.fromJson(contentBuilder.toString(), JsonObject.class);
+	}
 	/**
 	 * 加载并解析JSON文件
 	 * 该方法首先验证给定路径的文件是否存在且为JSON文件，然后读取文件内容并将其解析为JsonObject

@@ -12,8 +12,14 @@ import KrkrDataLoader.core.KrkrUtils;
 
 public class Config
 {
+	private static boolean is_init = false;
 	
 	private static Map<String,SingleConfig> single_config_map = new HashMap<>();
+	
+	public static boolean isInit()
+	{
+		return is_init;
+	}
 	
 	public static SingleConfig getSingleConfig(String name)
 	{
@@ -49,6 +55,8 @@ public class Config
 			}
 			setSingleConfig(new SingleConfig(json_config.getKey(), fields));
 		}
+		
+		is_init = true;
 	}
 	
 	
