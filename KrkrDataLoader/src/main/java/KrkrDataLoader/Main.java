@@ -2,15 +2,8 @@ package KrkrDataLoader;
 
 import KrkrDataLoader.config.Config;
 import KrkrDataLoader.config.Settings;
-import KrkrDataLoader.core.KrkrData;
-import KrkrDataLoader.core.KrkrDialogue;
-import KrkrDataLoader.core.KrkrScenes;
-import KrkrDataLoader.core.KrkrUtils;
-import KrkrDataLoader.gui.KrkrSceneWindow;
-import KrkrDataLoader.gui.KrkrVoiceWindow;
+import KrkrDataLoader.gui.window.KrkrSceneWindow;
 import javafx.application.Application;
-
-import java.io.File;
 
 
 public class Main
