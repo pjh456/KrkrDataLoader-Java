@@ -9,9 +9,12 @@ public class KrkrScenes
 {
 	public KrkrScenes(JsonElement data) throws Throwable
 	{
-		super(Config.getSingleConfig("scenes_name").getValueAsJsonPrimitive(data).toString());
+		//super(Config.getSingleConfig("scenes_name").getValueAsJsonPrimitive(data).getAsString());
+		super(Config.ScenesNameConfig.getValueAsJsonPrimitive(data).getAsString());
 		
-		JsonArray scene_array = Config.getSingleConfig("scene").getValueAsJsonArray(data);
+		//JsonArray scene_array = Config.getSingleConfig("scene").getValueAsJsonArray(data);
+		JsonArray scene_array = Config.SceneConfig.getValueAsJsonArray(data);
+		
 		for(JsonElement object: scene_array)
 		{
 			setChild(new KrkrScene(object));

@@ -36,6 +36,11 @@ public class SingleConfig
 		}
 	}
 	
+	public void clear_fields()
+	{
+		this.fields_list = new ArrayList<>();
+	}
+	
 	public void add_fields(List<Object> fields) throws Throwable
 	{
 		for(Object field: fields)
@@ -46,6 +51,15 @@ public class SingleConfig
 			}
 		}
 		this.fields_list.add(fields);
+	}
+	
+	public void loadFromPathList(List<JsonPath> pathList)
+	{
+		//TODO 把并列的部分单独判断出来，用报错等形式体现出来即可
+		for(JsonPath path:pathList)
+		{
+			//if(path.)
+		}
 	}
 	
 	public JsonObject getValueAsJsonObject(JsonElement data) throws Throwable

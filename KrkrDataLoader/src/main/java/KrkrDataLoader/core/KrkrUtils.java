@@ -1,5 +1,6 @@
 package KrkrDataLoader.core;
 
+import KrkrDataLoader.config.JsonPath;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sun.jdi.InvalidTypeException;
@@ -14,7 +15,8 @@ import java.util.List;
 
 public class KrkrUtils
 {
-	public static JsonObject loadJsonFile(File file) throws FileNotFoundException, InvalidTypeException, IOException
+	public static JsonObject loadJsonFile(File file)
+	throws FileNotFoundException, InvalidTypeException, IOException
 	{
 		
 		// 使用BufferedReader逐行读取文件内容
@@ -32,6 +34,7 @@ public class KrkrUtils
 		// 将读取的内容解析为JsonObject并返回
 		return gson.fromJson(contentBuilder.toString(), JsonObject.class);
 	}
+	
 	/**
 	 * 加载并解析JSON文件
 	 * 该方法首先验证给定路径的文件是否存在且为JSON文件，然后读取文件内容并将其解析为JsonObject
@@ -44,7 +47,8 @@ public class KrkrUtils
 	 * @throws InvalidTypeException  如果文件扩展名不是.json
 	 * @throws Throwable             如果文件读取过程中发生错误
 	 */
-	public static JsonObject loadJsonFile(String path) throws FileNotFoundException, InvalidTypeException, IOException
+	public static JsonObject loadJsonFile(String path)
+	throws FileNotFoundException, InvalidTypeException, IOException
 	{
 		// 检查指定路径是否为文件，如果不是，则抛出异常
 		if(! isFile(path))
@@ -83,7 +87,8 @@ public class KrkrUtils
 	 *
 	 * @throws Throwable 如果指定路径不是一个文件夹，则抛出FileNotFoundException
 	 */
-	public static List<JsonObject> loadJsonFolder(String path) throws Throwable
+	public static List<JsonObject> loadJsonFolder(String path)
+	throws Throwable
 	{
 		// 检查指定路径是否为文件夹，如果不是，则抛出异常
 		if(! isFolder(path))
@@ -96,7 +101,7 @@ public class KrkrUtils
 		// 获取文件夹下的所有文件和子文件夹的数组
 		File[] files = folder.listFiles();
 		// 如果files为空，则抛出异常
-		if (files == null)
+		if(files == null)
 		{
 			throw new IOException("Failed to list files in directory: " + path);
 		}
@@ -153,4 +158,33 @@ public class KrkrUtils
 		catch(Throwable e){ return false; }
 	}
 	
+	// 检验是否来自同一个路径
+	public static boolean isPathInPath(JsonPath parentPath, JsonPath childPath)
+	{
+		List<JsonPath> parentPathList = parentPath.listPath();
+		List<JsonPath> childPathList = childPath.listPath();
+		
+		if(parentPathList.size() > childPathList.size()) { return false; }
+		
+		for(int index = 0; index < parentPathList.size(); ++ index)
+		{
+			if(! parentPathList.get(index).equals(childPathList.get(index))) { return false; }
+		}
+		
+		return true;
+	}
+	
+	public static List<JsonPath> removeSamePath(JsonPath parentPath, JsonPath childPath)
+	throws Exception
+	{
+		if(!isPathInPath(parentPath, childPath))
+		{
+			throw new Exception("Check ChildPath is in ParentPath before calling this method!");
+		}
+		
+		List<JsonPath> parentPathList = parentPath.listPath();
+		List<JsonPath> childPathList = childPath.listPath();
+		
+		return childPathList.subList(parentPathList.size(), childPathList.size());
+	}
 }

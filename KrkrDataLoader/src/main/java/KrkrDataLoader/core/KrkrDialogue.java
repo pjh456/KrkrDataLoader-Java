@@ -16,26 +16,30 @@ public class KrkrDialogue
 		super(name);
 	}
 	
-	public KrkrDialogue(String name, JsonElement data) throws Throwable
+	public KrkrDialogue(String name, JsonElement data)
+	throws Throwable
 	{
 		super(name);
 		
 		this.speaker = null;
 		try
 		{
-			this.speaker = Config.getSingleConfig("speaker").getValueAsJsonPrimitive(data).getAsString();
+			//this.speaker = Config.getSingleConfig("speaker").getValueAsJsonPrimitive(data).getAsString();
+			this.speaker = Config.SpeakerConfig.getValueAsJsonPrimitive(data).getAsString();
 		}
 		catch(Throwable ignored)
 		{
 		
 		}
 		
-		this.content = Config.getSingleConfig("content").getValueAsJsonPrimitive(data).getAsString();
+		//this.content = Config.getSingleConfig("content").getValueAsJsonPrimitive(data).getAsString();
+		this.content = Config.ContentConfig.getValueAsJsonPrimitive(data).getAsString();
 		
 		this.voice = null;
 		try
 		{
-			voice = new Voice("voice", Config.getSingleConfig("voice").getValueAsJsonPrimitive(data).getAsString());
+			//voice = new Voice("voice", Config.getSingleConfig("voice").getValueAsJsonPrimitive(data).getAsString());
+			voice = new Voice("voice", Config.VoiceConfig.getValueAsJsonPrimitive(data).getAsString());
 			setChild(voice);
 		}
 		catch(Throwable ignored)

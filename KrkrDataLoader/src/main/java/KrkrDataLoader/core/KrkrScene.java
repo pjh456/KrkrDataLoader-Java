@@ -10,13 +10,16 @@ public class KrkrScene
 	
 	public KrkrScene(JsonElement data) throws Throwable
 	{
-		super(Config.getSingleConfig("scene_label").getValueAsJsonPrimitive(data).toString());
+		//super(Config.getSingleConfig("scene_label").getValueAsJsonPrimitive(data).getAsString());
+		super(Config.SceneNameConfig.getValueAsJsonPrimitive(data).getAsString());
 		
 		JsonArray dialogues_array = null;
 		
 		try
 		{
-			dialogues_array = Config.getSingleConfig("dialogues").getValueAsJsonArray(data);
+			//dialogues_array = Config.getSingleConfig("dialogues").getValueAsJsonArray(data);
+			dialogues_array = Config.DialoguesConfig.getValueAsJsonArray(data);
+			
 			int index = 0;
 			for(JsonElement element: dialogues_array)
 			{
