@@ -13,27 +13,19 @@ public class SingleConfig
 {
 	public String name;                // 配置的唯一标识符
 	// 由于提供对多种匹配模式的支持，这里是一个列表嵌套
-	public List<List<Object>> fields_list;    // 相对于上一层级的相对路径
+	public List<List<Object>> fields_list = new ArrayList<>();// 相对于上一层级的相对路径
 	
 	public SingleConfig(String name)
 	{
 		this.name = name;
-		this.fields_list = new ArrayList<>();
 	}
 	
 	public SingleConfig(String name, List<Object> fields)
+	throws Exception
 	{
 		this.name = name;
-		this.fields_list = new ArrayList<>();
 		
-		try
-		{
-			add_fields(fields);
-		}
-		catch(Throwable e)
-		{
-		
-		}
+		add_fields(fields);
 	}
 	
 	public void clear_fields()
@@ -41,43 +33,48 @@ public class SingleConfig
 		this.fields_list = new ArrayList<>();
 	}
 	
-	public void add_fields(List<Object> fields) throws Throwable
+	public void add_fields(List<Object> fields)
+	throws Exception
 	{
+		List<Object> newList = new ArrayList<>();
 		for(Object field: fields)
 		{
-			if(( ! ( field instanceof String ) ) && ( ! ( field instanceof Integer ) ))
+			if(( field instanceof String ) || ( field instanceof Integer ))
 			{
-				throw new Exception("Fields only support String and Interger!");
+				newList.add(field);
+			}
+			else if(field instanceof JsonPath)
+			{
+				newList.add(( (JsonPath) field ).name);
+			}
+			else
+			{
+				throw new Exception("Fields only support String, Integer or JsonPath !");
 			}
 		}
-		this.fields_list.add(fields);
+		this.fields_list.add(newList);
 	}
 	
-	public void loadFromPathList(List<JsonPath> pathList)
-	{
-		//TODO 把并列的部分单独判断出来，用报错等形式体现出来即可
-		for(JsonPath path:pathList)
-		{
-			//if(path.)
-		}
-	}
-	
-	public JsonObject getValueAsJsonObject(JsonElement data) throws Throwable
+	public JsonObject getValueAsJsonObject(JsonElement data)
+	throws Throwable
 	{
 		return getValueAsJsonElement(data).getAsJsonObject();
 	}
 	
-	public JsonArray getValueAsJsonArray(JsonElement data) throws Throwable
+	public JsonArray getValueAsJsonArray(JsonElement data)
+	throws Throwable
 	{
 		return getValueAsJsonElement(data).getAsJsonArray();
 	}
 	
-	public JsonPrimitive getValueAsJsonPrimitive(JsonElement data) throws Throwable
+	public JsonPrimitive getValueAsJsonPrimitive(JsonElement data)
+	throws Throwable
 	{
 		return getValueAsJsonElement(data).getAsJsonPrimitive();
 	}
 	
-	private JsonElement getValueAsJsonElement(JsonElement data) throws Throwable
+	private JsonElement getValueAsJsonElement(JsonElement data)
+	throws Throwable
 	{
 		JsonElement new_data = null;
 		for(List<Object> fields: fields_list)
@@ -90,7 +87,7 @@ public class SingleConfig
 		}
 		if(new_data == null)
 		{
-			throw new NoSuchFieldError("Load Json Error in field "+name+": Can't get data from fields!");
+			throw new NoSuchFieldError("Load Json Error in field " + name + ": Can't get data from fields!");
 		}
 		return new_data;
 	}

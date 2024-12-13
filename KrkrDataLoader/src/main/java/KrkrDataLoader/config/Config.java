@@ -4,10 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import KrkrDataLoader.core.KrkrUtils;
 
@@ -19,9 +16,9 @@ public class Config
 	public static SingleConfig SceneNameConfig = null;
 	public static SingleConfig SceneConfig = null;
 	public static SingleConfig DialoguesConfig = null;
-	public static SingleConfig VoiceConfig = null;
-	public static SingleConfig ContentConfig = null;
 	public static SingleConfig SpeakerConfig = null;
+	public static SingleConfig ContentConfig = null;
+	public static SingleConfig VoiceConfig = null;
 	
 	private static Map<String,SingleConfig> single_config_map = new HashMap<>();
 	
@@ -32,6 +29,7 @@ public class Config
 	public static void setSingleConfig(SingleConfig config) { single_config_map.put(config.name, config); }
 	
 	public static void loadFromJson(JsonObject data)
+	throws Exception
 	{
 		single_config_map = new HashMap<>();
 		
@@ -87,6 +85,40 @@ public class Config
 	throws Throwable
 	{
 		loadFromJson(KrkrUtils.loadJsonFile(file));
+	}
+	
+	public static void loadFromConfigList(ConfigList configList)
+	throws NullPointerException, Exception
+	{
+		JsonPath ScenesNameConfigAbstractPath = Objects.requireNonNull(configList.getScenesNamePath());
+		JsonPath SceneNameConfigAbstractPath = Objects.requireNonNull(configList.getSceneNamePath());
+		JsonPath SceneConfigAbstractPath = Objects.requireNonNull(configList.getScenePath());
+		JsonPath DialoguesConfigAbstractPath = Objects.requireNonNull(configList.getDialoguesPath());
+		JsonPath SpeakerConfigAbstractPath = Objects.requireNonNull(configList.getSpeakerPath());
+		JsonPath ContentConfigAbstractPath = Objects.requireNonNull(configList.getContentPath());
+		JsonPath VoiceConfigAbstractPath = Objects.requireNonNull(configList.getVoicePath());
+		
+		List<Object> ScenesNameConfigPath = ScenesNameConfigAbstractPath.listObjectPath();
+		List<Object> SceneNameConfigPath = KrkrUtils.removeSamePath_object(SceneConfigAbstractPath, SceneNameConfigAbstractPath);
+		List<Object> SceneConfigPath = SceneConfigAbstractPath.listObjectPath();
+		List<Object> DialoguesConfigPath = KrkrUtils.removeSamePath_object(SceneConfigAbstractPath,DialoguesConfigAbstractPath);
+		List<Object> SpeakerConfigPath = KrkrUtils.removeSamePath_object(DialoguesConfigAbstractPath, SpeakerConfigAbstractPath);
+		List<Object> ContentConfigPath = KrkrUtils.removeSamePath_object(DialoguesConfigAbstractPath, ContentConfigAbstractPath);
+		List<Object> VoiceConfigPath = KrkrUtils.removeSamePath_object(DialoguesConfigAbstractPath, VoiceConfigAbstractPath);
+		
+//		System.out.println(SceneConfigAbstractPath.listNamePath());
+//		System.out.println(DialoguesConfigAbstractPath.listNamePath());
+		
+		
+		ScenesNameConfig = new SingleConfig("scenes_name", ScenesNameConfigPath.subList(1,ScenesNameConfigPath.size()));
+		SceneNameConfig = new SingleConfig("scene_label", SceneNameConfigPath.subList(1,SceneNameConfigPath.size()));
+		SceneConfig = new SingleConfig("scene", SceneConfigPath.subList(1,SceneConfigPath.size()));
+		DialoguesConfig = new SingleConfig("dialogues", DialoguesConfigPath.subList(1,DialoguesConfigPath.size()));
+		SpeakerConfig = new SingleConfig("speaker", SpeakerConfigPath.subList(1,SpeakerConfigPath.size()));
+		ContentConfig = new SingleConfig("content", ContentConfigPath.subList(1,ContentConfigPath.size()));
+		VoiceConfig = new SingleConfig("voice", VoiceConfigPath.subList(1,VoiceConfigPath.size()));
+		
+		is_init = true;
 	}
 	
 }

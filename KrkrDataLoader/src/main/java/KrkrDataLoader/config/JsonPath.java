@@ -1,5 +1,6 @@
 package KrkrDataLoader.config;
 
+import KrkrDataLoader.core.KrkrUtils;
 import com.google.gson.*;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class JsonPath
 	
 	private final JsonElement data;
 	
-	public String name;
+	public Object name;
 	
 	private boolean isInRow = false;
 	
@@ -21,17 +22,24 @@ public class JsonPath
 	
 	public JsonPath parent = null;
 	
-	public JsonPath(JsonElement data, String name, JsonPath parent, Boolean isInRow)
+	public JsonPath(JsonElement data, Object name, JsonPath parent, Boolean isInRow)
+	throws Exception
 	{
 		this.data = data;
+		
+		if(( ! ( name instanceof String ) ) && ( ! ( name instanceof Integer ) ))
+		{
+			throw new Exception("Type of JsonPath name is unexpected!");
+		}
 		this.name = name;
+		
 		this.parent = parent;
 		
 		if(data instanceof JsonArray)
 		{
 			for(JsonElement childData: (JsonArray) data)
 			{
-				childMap.put(Integer.toString(childMap.size()), new JsonPath(childData, getDefaultName(), this, true));
+				childMap.put(Integer.toString(childMap.size()), new JsonPath(childData, childMap.size(), this, true));
 			}
 		}
 		else if(data instanceof JsonObject)
@@ -49,13 +57,21 @@ public class JsonPath
 		}
 	}
 	
-	public JsonPath(JsonElement data, String name, Boolean isInRow) { this(data, name, null, isInRow); }
+	public JsonPath(JsonElement data, Object name, Boolean isInRow)
+	throws Exception
+	{ this(data, name, null, isInRow); }
 	
-	public JsonPath(JsonElement data, Boolean isInRow) { this(data, getDefaultName(), null, isInRow); }
+	public JsonPath(JsonElement data, Boolean isInRow)
+	throws Exception
+	{ this(data, getDefaultName(), null, isInRow); }
 	
-	public JsonPath(JsonElement data, String name) { this(data, name, null, false); }
+	public JsonPath(JsonElement data, Object name)
+	throws Exception
+	{ this(data, name, null, false); }
 	
-	public JsonPath(JsonElement data) { this(data, getDefaultName(), null, false); }
+	public JsonPath(JsonElement data)
+	throws Exception
+	{ this(data, getDefaultName(), null, false); }
 	
 	public boolean isInRow() { return isInRow; }
 	
@@ -65,6 +81,23 @@ public class JsonPath
 		parentPathList.add(this);
 		return parentPathList;
 	}
+	
+	// 为了适配SingleConfig初始化的List<Object>
+	public List<Object> listObjectPath()
+	{
+		List<Object> parentPathList = parent == null ? new ArrayList<>() : parent.listObjectPath();
+		parentPathList.add(this);
+		return parentPathList;
+	}
+	
+	// 方便调试用的
+	public List<Object> listNamePath()
+	{
+		List<Object> parentPathList = parent == null ? new ArrayList<>() : parent.listNamePath();
+		parentPathList.add(this.name);
+		return parentPathList;
+	}
+	
 	
 	public List<JsonPath> listChildren() { return childMap.values().stream().toList(); }
 	
@@ -76,4 +109,5 @@ public class JsonPath
 	public String toString() { return name + ": " + data; }
 	
 	public static String getDefaultName() { return "defaultPath(" + Integer.toString(JsonPath.defaultIndex++) + ")"; }
+	
 }

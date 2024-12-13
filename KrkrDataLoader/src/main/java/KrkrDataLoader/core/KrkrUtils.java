@@ -187,4 +187,19 @@ public class KrkrUtils
 		
 		return childPathList.subList(parentPathList.size(), childPathList.size());
 	}
+	
+	
+	public static List<Object> removeSamePath_object(JsonPath parentPath, JsonPath childPath)
+	throws Exception
+	{
+		if(!isPathInPath(parentPath, childPath))
+		{
+			throw new Exception("Check ChildPath is in ParentPath before calling this method!");
+		}
+		
+		List<Object> parentPathList = parentPath.listObjectPath();
+		List<Object> childPathList = childPath.listObjectPath();
+		
+		return childPathList.subList(parentPathList.size(), childPathList.size());
+	}
 }

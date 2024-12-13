@@ -17,8 +17,15 @@ public class AutoPathLoader
 	public AutoPathLoader(JsonObject data)
 	{
 		this.data = data;
-		JsonPath root = new JsonPath(data);
-		pathStack.add(root);
+		try
+		{
+			JsonPath root = new JsonPath(data);
+			pathStack.add(root);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public AutoPathLoader(File file)
@@ -70,4 +77,5 @@ public class AutoPathLoader
 		//TODO:剖分路径，作为List<String>传入SingleConfig
 		return null;
 	}
+	
 }
