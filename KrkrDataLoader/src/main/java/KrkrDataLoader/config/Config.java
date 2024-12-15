@@ -1,9 +1,14 @@
 package KrkrDataLoader.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 import KrkrDataLoader.core.KrkrUtils;
@@ -36,7 +41,8 @@ public class Config
 		for(Map.Entry<String,JsonElement> json_config: data.entrySet())
 		{
 			List<Object> fields = new ArrayList<>();
-			for(JsonElement field: json_config.getValue().getAsJsonArray())
+			//TODO 目前这里只用第一个匹配就够了，等以后多模式匹配的时候再把 get(0) 改了
+			for(JsonElement field: json_config.getValue().getAsJsonArray().get(0).getAsJsonArray())
 			{
 				if(field.getAsJsonPrimitive().isString()) { fields.add(field.getAsString()); }
 				else if(field.getAsJsonPrimitive().isNumber()) { fields.add((Integer) field.getAsInt()); }
@@ -120,5 +126,32 @@ public class Config
 		
 		is_init = true;
 	}
+	
+	public static void saveConfigs(String path)
+	throws IOException
+	{
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Map<String, List<List<Object>>> root = new LinkedHashMap<>();
+		root.put("scenes_name", ScenesNameConfig.getFieldsList());
+		root.put("scene_label", SceneNameConfig.getFieldsList());
+		root.put("scene", SceneConfig.getFieldsList());
+		root.put("dialogues", DialoguesConfig.getFieldsList());
+		root.put("speaker", SpeakerConfig.getFieldsList());
+		root.put("content", ContentConfig.getFieldsList());
+		root.put("voice", VoiceConfig.getFieldsList());
+		System.out.println(gson.toJson(root));
+		
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+			writer.write(gson.toJson(root));
+			Settings.config_path = path;
+			Settings.saveSettings();
+		}
+		catch(Exception e)
+		{
+			throw new RuntimeException(e);
+		}
+		//gson.toJson(root, new FileWriter(defaultOutputPath));
+	}
+	
 	
 }

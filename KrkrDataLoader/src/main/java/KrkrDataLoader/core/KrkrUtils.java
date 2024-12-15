@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.sun.jdi.InvalidTypeException;
 
 import java.io.*;
-//import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -177,7 +176,7 @@ public class KrkrUtils
 	public static List<JsonPath> removeSamePath(JsonPath parentPath, JsonPath childPath)
 	throws Exception
 	{
-		if(!isPathInPath(parentPath, childPath))
+		if(! isPathInPath(parentPath, childPath))
 		{
 			throw new Exception("Check ChildPath is in ParentPath before calling this method!");
 		}
@@ -192,7 +191,7 @@ public class KrkrUtils
 	public static List<Object> removeSamePath_object(JsonPath parentPath, JsonPath childPath)
 	throws Exception
 	{
-		if(!isPathInPath(parentPath, childPath))
+		if(! isPathInPath(parentPath, childPath))
 		{
 			throw new Exception("Check ChildPath is in ParentPath before calling this method!");
 		}

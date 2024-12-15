@@ -1,8 +1,10 @@
 package KrkrDataLoader.command;
 
+import KrkrDataLoader.Main;
 import KrkrDataLoader.config.AutoPathLoader;
 import KrkrDataLoader.config.Config;
 import KrkrDataLoader.config.JsonPath;
+import KrkrDataLoader.config.Settings;
 import KrkrDataLoader.core.KrkrData;
 import KrkrDataLoader.core.KrkrDialogue;
 import KrkrDataLoader.core.KrkrScene;
@@ -104,27 +106,14 @@ public class CommandAutoLoader
 					catch(Exception e)
 					{
 						System.out.println(e);
-						//System.out.println("Some fields aren't be filled !");
 					}
 					
 					System.out.println("Loading...");
 					
-					scenes = new KrkrScenes(path);
-					for(KrkrData scene: scenes.listChildren())
-					{
-						System.out.println(scene.name);
-						if(scene.size() > 0)
-						{
-							for(KrkrData dialogue: scene.listChildren())
-							{
-								System.out.println("	" + ( (KrkrDialogue) dialogue ).content);
-							}
-						}
-						else
-						{
-							System.out.println("	" + "null");
-						}
-					}
+					Main.testOutputFileContent(path);
+					break;
+				case "save":
+					Config.saveConfigs(Settings.config_path);
 					break;
 				case "exit":
 					isLoop = false;

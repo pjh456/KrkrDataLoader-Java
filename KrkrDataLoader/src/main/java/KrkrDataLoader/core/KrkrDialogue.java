@@ -7,8 +7,8 @@ import com.google.gson.JsonElement;
 public class KrkrDialogue
 		extends KrkrData
 {
-	public String speaker = Settings.default_speaker;
-	public String content = Settings.default_content;
+	public String speaker = Settings.speaker;
+	public String content = Settings.content;
 	private KrkrVoice voice = null;
 	
 	public KrkrDialogue(String name)
