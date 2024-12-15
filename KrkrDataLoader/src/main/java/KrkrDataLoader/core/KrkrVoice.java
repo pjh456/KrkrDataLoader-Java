@@ -1,11 +1,12 @@
 package KrkrDataLoader.core;
 
 
-public class Voice extends KrkrData
+public class KrkrVoice
+		extends KrkrData
 {
 	public final String path;
 	
-	public Voice(String name, String path)
+	public KrkrVoice(String name, String path)
 	{
 		super(name);
 		this.path = path;

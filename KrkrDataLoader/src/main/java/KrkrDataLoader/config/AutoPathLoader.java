@@ -13,6 +13,7 @@ public class AutoPathLoader
 {
 	public JsonObject data;
 	private final Stack<JsonPath> pathStack = new Stack<>();
+	private final ConfigList configList = new ConfigList();
 	
 	public AutoPathLoader(JsonObject data)
 	{
@@ -72,10 +73,34 @@ public class AutoPathLoader
 		else { return null; }
 	}
 	
-	public List<JsonPath> getConfigFields()
+	public void setScenesNamePath() { configList.setScenesNamePath(getCurrentPath()); }
+	
+	public void setSceneNamePath() { configList.setSceneNamePath(getCurrentPath()); }
+	
+	public void setScenePath() { configList.setScenePath(getCurrentPath()); }
+	
+	public void setDialoguesPath() { configList.setDialoguesPath(getCurrentPath()); }
+	
+	public void setSpeakerPath() { configList.setSpeakerPath(getCurrentPath()); }
+	
+	public void setContentPath() { configList.setContentPath(getCurrentPath()); }
+	
+	public void setVoicePath() { configList.setVoicePath(getCurrentPath()); }
+	
+	public void setConfig()
+	throws Exception
 	{
-		//TODO:剖分路径，作为List<String>传入SingleConfig
-		return null;
+		Config.loadFromConfigList(configList);
 	}
 	
+	public void checkConfig() throws Exception
+	{
+		if(configList.getScenesNamePath()==null)throw new Exception("Scenes Name Path is null !");
+		if(configList.getSceneNamePath()==null)throw new Exception("Scene Name Path is null !");
+		if(configList.getScenePath()==null)throw new Exception("Scene Path is null !");
+		if(configList.getDialoguesPath()==null)throw new Exception("Dialogues Path is null !");
+		if(configList.getSpeakerPath()==null)throw new Exception("Speaker Path is null !");
+		if(configList.getContentPath()==null)throw new Exception("Content Path is null !");
+		if(configList.getVoicePath()==null)throw new Exception("Voice Path is null !");
+	}
 }

@@ -9,7 +9,7 @@ public class KrkrDialogue
 {
 	public String speaker = Settings.default_speaker;
 	public String content = Settings.default_content;
-	private Voice voice = null;
+	private KrkrVoice voice = null;
 	
 	public KrkrDialogue(String name)
 	{
@@ -38,8 +38,8 @@ public class KrkrDialogue
 		this.voice = null;
 		try
 		{
-			//voice = new Voice("voice", Config.getSingleConfig("voice").getValueAsJsonPrimitive(data).getAsString());
-			voice = new Voice("voice", Config.VoiceConfig.getValueAsJsonPrimitive(data).getAsString());
+			//voice = new KrkrVoice("voice", Config.getSingleConfig("voice").getValueAsJsonPrimitive(data).getAsString());
+			voice = new KrkrVoice("voice", Config.VoiceConfig.getValueAsJsonPrimitive(data).getAsString());
 			setChild(voice);
 		}
 		catch(Throwable ignored)

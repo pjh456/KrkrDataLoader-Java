@@ -90,7 +90,7 @@ public class JsonPath
 		return parentPathList;
 	}
 	
-	// 方便调试用的
+	// 方便调试用的，可以返回一个纯名字的列表
 	public List<Object> listNamePath()
 	{
 		List<Object> parentPathList = parent == null ? new ArrayList<>() : parent.listNamePath();
