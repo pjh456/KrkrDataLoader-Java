@@ -37,7 +37,8 @@ public class Settings
 		return is_init;
 	}
 	
-	public static void loadFromJson(String path) throws Exception
+	public static void loadFromJson(String path)
+	throws Throwable
 	{
 		JsonObject obj = KrkrUtils.loadJsonFile(path);
 		
@@ -55,9 +56,12 @@ public class Settings
 		scene_fxml_path = obj.get("scene_fxml_path").getAsString();
 		
 		is_init = true;
+		
+		Config.loadFromJson(config_path);
 	}
 	
-	public static void loadFromJson() throws Exception
+	public static void loadFromJson()
+	throws Throwable
 	{
 		loadFromJson(settingPath);
 	}

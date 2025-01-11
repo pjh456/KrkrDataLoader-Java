@@ -61,7 +61,7 @@ public class CommandAutoLoader
 					}
 					break;
 				case "value":
-					System.out.println(loader.getCurrentPath());
+					System.out.println(loader.getCurrentPath().getData());
 					break;
 				case "set":
 					switch(commands[1])

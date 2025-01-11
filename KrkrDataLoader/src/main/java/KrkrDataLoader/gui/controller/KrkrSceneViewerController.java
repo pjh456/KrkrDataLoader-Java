@@ -53,6 +53,7 @@ public class KrkrSceneViewerController extends KrkrBaseController
 	public void loadDialogue(KrkrDialogue dialogue)
 	{
 		sceneViewer.getChildren().add(new Text(dialogue.toString() + "\n"));
+		//System.out.println(dialogue.toString());
 	}
 	
 	public void loadDialogues(KrkrScene scene)

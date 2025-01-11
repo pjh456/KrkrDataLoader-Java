@@ -3,11 +3,9 @@ package KrkrDataLoader.gui.controller;
 import KrkrDataLoader.core.KrkrData;
 import KrkrDataLoader.core.KrkrScenes;
 import KrkrDataLoader.core.KrkrUtils;
+import KrkrDataLoader.gui.interfaces.*;
 import KrkrDataLoader.gui.window.KrkrSceneWindow;
-import KrkrDataLoader.gui.interfaces.LogMessageInterface;
-import KrkrDataLoader.gui.interfaces.OpenFileInterface;
-import KrkrDataLoader.gui.interfaces.SelectSceneTreeItemInterface;
-import KrkrDataLoader.gui.interfaces.ShowContentInterface;
+import com.google.gson.JsonElement;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -29,6 +27,8 @@ public class KrkrBaseController
 	protected static List<LogMessageInterface> logMessageInterfaces = new ArrayList<>();
 	
 	protected static List<ShowContentInterface> showContentInterfaces = new ArrayList<>();
+	
+	protected static List<ShowStringInterface> showStringInterfaces = new ArrayList<>();
 	
 	protected static List<SelectSceneTreeItemInterface> selectSceneTreeItemInterfaces = new ArrayList<>();
 	
@@ -93,6 +93,14 @@ public class KrkrBaseController
 		for(ShowContentInterface showContentInterface: showContentInterfaces)
 		{
 			showContentInterface.handleShowContent(data);
+		}
+	}
+	
+	public static void showJson(JsonElement data)
+	{
+		for(ShowStringInterface showStringInterface:showStringInterfaces)
+		{
+			showStringInterface.handleShowString(data);
 		}
 	}
 	

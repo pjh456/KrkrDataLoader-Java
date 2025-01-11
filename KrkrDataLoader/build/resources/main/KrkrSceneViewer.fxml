@@ -29,18 +29,18 @@
 <!--         </children>-->
 <!--      </VBox>-->
 
-        <VBox alignment="TOP_CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label text="Scene View">
+                <Label text="Scene View" VBox.vgrow="NEVER">
                     <font>
                         <Font name="Consolas" size="15.0" />
                     </font>
                 </Label>
-                <ScrollPane hbarPolicy="ALWAYS" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                <ScrollPane hbarPolicy="ALWAYS" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+                        <AnchorPane>
                             <children>
-                                <TextFlow fx:id="sceneViewer" prefHeight="200.0" prefWidth="200.0" />
+                                <TextFlow fx:id="sceneViewer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                             </children>
                         </AnchorPane>
                     </content>

@@ -106,8 +106,16 @@ public class JsonPath
 	public JsonPath getChild(int index) { return childMap.values().stream().toList().get(index); }
 	
 	@Override
-	public String toString() { return name + ": " + data; }
+	public String toString() { return name.toString(); }
+	
+	public String getData() { return name + ": " + data; }
+	
+	public JsonElement getOriginalData() { return data; }
 	
 	public static String getDefaultName() { return "defaultPath(" + Integer.toString(JsonPath.defaultIndex++) + ")"; }
 	
+	public int size()
+	{
+		return childMap.size();
+	}
 }
